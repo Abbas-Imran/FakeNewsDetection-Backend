@@ -10,15 +10,15 @@ router.post(
     const { username, password } = req.body;
     console.log(username, password);
     const user = await userModel.findOne({ username: username });
-    if (!user) throw new BadRequest("Invalid Username or Password");
+    if (!user) res.status(400).send({msg: "Invalid Username or Password"});
 
     const validPassword = await user.comparePassword(password);
     console.log(validPassword);
-    if (!validPassword) throw new BadRequest("Invalid Username or Password");
+    if (!validPassword) res.status(400).send({msg: "Invalid Username or Password"});
 
     const token = await user.genrateToken();
     console.log(token);
-    res.header("x-auth-token", token).send({ token: token , dollars : user.dollers});
+    res.header("x-auth-token", token).send({ token: token});
   })
 );
 module.exports = router;

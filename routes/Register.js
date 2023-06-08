@@ -11,7 +11,7 @@ router.post(
     let user = await userModel.findOne({ username: username });
 
     console.log(user);
-    if (user) throw new Unauthorized("User already exist");
+    if (user) res.status(200).send({msg:"User already exist"});
 
     user = new userModel(req.body);
     const token = await user.genrateToken();
